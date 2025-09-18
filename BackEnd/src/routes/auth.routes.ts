@@ -1,9 +1,12 @@
-import { Router } from "express";
-import { signup, signin } from "../controllers/auth.controller";
+// routes/auth.routes.ts
+import { initServer } from "@ts-rest/express";
+import { usersContract } from "../contracts/users";
+import { signupController, signinController } from "../controllers/auth.controller";
+import express from "express";
 
-const router = Router();
+const s = initServer();
 
-router.post("/signup", signup);
-router.post("/signin", signin);
-
-export default router;
+export const usersRouter = s.router(usersContract, {
+  signup: signupController,
+  signin: signinController,
+}) as unknown as express.Router; // ✅ cast to Router

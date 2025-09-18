@@ -1,8 +1,12 @@
-import express, { Request, Response } from "express";
+// src/index.ts
+import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import authRoutes from './routes/auth.routes'
+import swaggerUi from "swagger-ui-express";
+
+import { appRouter } from "./routes";
+import { openApiDocument } from "./openapi";
 
 dotenv.config();
 
@@ -10,19 +14,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
+// ✅ Mount the router
+app.use("/api/v1", appRouter);
+
+// ✅ Swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
+
+app.get("/", (req, res) => res.send("Mono Task Manager BE running 🚀"));
 
 const PORT = process.env.PORT || 7000;
 const MONGO_URI = process.env.MONGO_URI || "";
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Mono Task Manager BE running 🚀");
-});
-
 mongoose
   .connect(MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-    app.listen(PORT, () => console.log(`Server running on PORT: ${PORT}`));
-  })
+  .then(() => app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`)))
   .catch((err) => console.error("MongoDB connection error:", err));
