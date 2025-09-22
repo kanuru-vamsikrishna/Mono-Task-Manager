@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 const apiRouter = express.Router();
+// First we have to create express router and then mount with ts-rest otherwise it will fail.
 createExpressEndpoints(apiContract, appRouter, apiRouter);
 
 // Mount router with base path

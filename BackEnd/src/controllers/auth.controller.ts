@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../modals/user.modal";
+import User from "../modals/auth.modal";
 import { usersContract } from "../contracts/users";
 import { AppRouteImplementation } from "@ts-rest/express";
 

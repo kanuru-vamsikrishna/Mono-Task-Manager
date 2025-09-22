@@ -1,14 +1,15 @@
-import mongoose, { Document, Schema } from "mongoose";
-import { SignUpInput } from "../schemas/auth.schema";
+import { z } from "zod";
 
+// Define roles
+export const userRoleEnum = z.enum(["admin", "client", "customer"]);
 
-const userSchema = new Schema<SignUpInput>(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-  },
-  { timestamps: true }
-);
+export const userSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  email: z.string().email(),
+  role: userRoleEnum,
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
 
-export default mongoose.model<SignUpInput>("User", userSchema);
+export type User = z.infer<typeof userSchema>;
