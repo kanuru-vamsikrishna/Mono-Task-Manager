@@ -1,5 +1,9 @@
-// src/routes/index.ts
+import { initServer } from "@ts-rest/express";
+import { apiContract } from "../contracts";
 import { usersRouter } from "./auth.routes";
 
-// Just export the router, no nesting
-export const appRouter = usersRouter; 
+const s = initServer();
+
+export const appRouter = s.router(apiContract, {
+  users: usersRouter,
+});

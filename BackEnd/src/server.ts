@@ -1,10 +1,10 @@
-// src/index.ts
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
-
+import { createExpressEndpoints } from "@ts-rest/express";
+import { apiContract } from "./contracts";
 import { appRouter } from "./routes";
 import { openApiDocument } from "./openapi";
 
@@ -14,8 +14,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Mount the router
-app.use("/api/v1", appRouter);
+const apiRouter = express.Router();
+createExpressEndpoints(apiContract, appRouter, apiRouter);
+
+// Mount router with base path
+app.use("/api/v1", apiRouter);
 
 // ✅ Swagger docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));

@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { SignupInput } from "../schemas/auth.schema";
+import { SignUpInput } from "../schemas/auth.schema";
 
 
-const userSchema = new Schema<SignupInput>(
+const userSchema = new Schema<SignUpInput>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -11,4 +11,4 @@ const userSchema = new Schema<SignupInput>(
   { timestamps: true }
 );
 
-export default mongoose.model<SignupInput>("User", userSchema);
+export default mongoose.model<SignUpInput>("User", userSchema);
