@@ -9,7 +9,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Auth routes */}
-      {AuthRoutes}
+      <Route path="/*" element={<AuthRoutes />} />
 
       {/* Protected routes */}
       {/* <Route
