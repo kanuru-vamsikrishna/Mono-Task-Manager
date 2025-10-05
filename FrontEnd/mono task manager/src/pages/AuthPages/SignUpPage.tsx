@@ -1,9 +1,19 @@
-// src/pages/auth/SignupPage.tsx
-// import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const signupSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -12,7 +22,11 @@ const signupSchema = z.object({
 type SignupForm = z.infer<typeof signupSchema>;
 
 export default function SignUpPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm<SignupForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupForm>({
     // resolver: zodResolver(signupSchema),
   });
 
@@ -22,17 +36,62 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-xl font-semibold">Signup</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-80">
-        <input {...register("email")} placeholder="Email" className="border p-2" />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-
-        <input type="password" {...register("password")} placeholder="Password" className="border p-2" />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-
-        <button type="submit" className="bg-green-600 text-white p-2 rounded">Signup</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
+      <Card className="w-full max-w-md shadow-lg border border-gray-200 rounded-2xl">
+        <CardHeader className="text-center space-y-1">
+          <CardTitle className="text-2xl font-semibold text-gray-800">
+            Create your account
+          </CardTitle>
+          <CardDescription className="text-gray-500">
+            Sign up to get started
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="you@example.com"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                {...register("password")}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+            <Button type="submit" className="w-full">
+              Signup
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center space-y-2 text-sm">
+          <p className="text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-blue-600 font-medium hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

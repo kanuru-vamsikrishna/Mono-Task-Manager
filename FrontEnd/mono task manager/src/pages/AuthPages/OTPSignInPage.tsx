@@ -1,38 +1,81 @@
-// src/pages/auth/OtpLoginPage.tsx
-// import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const otpSchema = z.object({
-  identifier: z.string().min(5, "Email or phone required"),
-  otp: z.string().length(6, "OTP must be 6 digits"),
+  otp: z.string().min(6, "OTP must be 6 characters").max(6),
 });
 
 type OtpForm = z.infer<typeof otpSchema>;
 
-export default function OtpSignInPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm<OtpForm>({
+export default function OTPSignInPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<OtpForm>({
     // resolver: zodResolver(otpSchema),
   });
 
   const onSubmit = (data: OtpForm) => {
-    console.log("OTP login request", data);
-    // API → verify OTP → dispatch loginSuccess
+    console.log("OTP verification request", data);
+    // API call to verify OTP
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-xl font-semibold">Login with OTP</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-80">
-        <input {...register("identifier")} placeholder="Email or phone" className="border p-2" />
-        {errors.identifier && <p className="text-red-500">{errors.identifier.message}</p>}
-
-        <input {...register("otp")} placeholder="Enter OTP" className="border p-2" />
-        {errors.otp && <p className="text-red-500">{errors.otp.message}</p>}
-
-        <button type="submit" className="bg-orange-600 text-white p-2 rounded">Verify OTP</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
+      <Card className="w-full max-w-md shadow-lg border border-gray-200 rounded-2xl">
+        <CardHeader className="text-center space-y-1">
+          <CardTitle className="text-2xl font-semibold text-gray-800">
+            Check your email
+          </CardTitle>
+          <CardDescription className="text-gray-500">
+            We've sent a one-time password to your email.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="otp">One-Time Password</Label>
+              <Input id="otp" placeholder="••••••" {...register("otp")} />
+              {errors.otp && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.otp.message}
+                </p>
+              )}
+            </div>
+            <Button type="submit" className="w-full">
+              Verify
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center space-y-2 text-sm">
+          <p className="text-gray-600">
+            Didn't receive the code?{" "}
+            <button className="text-blue-600 font-medium hover:underline focus:outline-none">
+              Resend
+            </button>
+          </p>
+          <Link
+            to="/login"
+            className="text-blue-600 font-medium hover:underline"
+          >
+            Back to Login
+          </Link>
+        </CardFooter>
+    </Card>
     </div>
   );
 }
