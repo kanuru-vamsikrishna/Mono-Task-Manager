@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 // import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
@@ -13,13 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema, SignupForm } from "@/shared/signUpSchema";
 
-const signupSchema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type SignupForm = z.infer<typeof signupSchema>;
 
 export default function SignUpPage() {
   const {
@@ -27,7 +22,7 @@ export default function SignUpPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<SignupForm>({
-    // resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signUpSchema),
   });
 
   const onSubmit = (data: SignupForm) => {
