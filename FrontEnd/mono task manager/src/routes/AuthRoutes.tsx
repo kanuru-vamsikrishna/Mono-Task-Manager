@@ -8,10 +8,10 @@ import OtpSignInPage from "../pages/AuthPages/OTPSignInPage";
 const AuthRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<SignInPage />} />
+      <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/otp-login" element={<OtpSignInPage />} />
+      <Route path="/otp-signin" element={<OtpSignInPage />} />
     </Routes>
   );
 };

@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -13,24 +12,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SignInInput, signInSchema } from "../../../../../shared/auth/auth.schema";
 
-const loginSchema = z.object({
-  email: z.string().min(5, "Email or phone is required"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>({
-    // resolver: zodResolver(loginSchema),
+  } = useForm<SignInInput>({
+    resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit = (data: LoginForm) => {
+  const onSubmit = (data: SignInInput) => {
     console.log("Login request", data);
     // TODO: call backend API here
   };
@@ -46,7 +40,6 @@ export default function LoginPage() {
             Sign in to your account
           </CardDescription>
         </CardHeader>
-
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex flex-col space-y-1.5">
@@ -62,7 +55,6 @@ export default function LoginPage() {
                 </p>
               )}
             </div>
-
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Password</Label>
               <Input
@@ -77,20 +69,26 @@ export default function LoginPage() {
                 </p>
               )}
             </div>
-
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700">
               Login
             </Button>
           </form>
         </CardContent>
-
         <CardFooter className="flex flex-col items-center space-y-2 text-sm">
+          <div className="w-full flex justify-center space-x-2">
           <Link
             to="/forgot-password"
             className="text-blue-600 hover:underline"
           >
             Forgot password?
           </Link>
+          <Link
+            to="/otp-signin"
+            className="text-blue-600 hover:underline"
+          >
+           Signin with OTP
+            </Link>
+            </div>
           <p className="text-gray-600">
             Don’t have an account?{" "}
             <Link

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   CardHeader,
@@ -12,20 +12,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, SignupForm } from "@/shared/signUpSchema";
-
+import { SignUpInput, signUpSchema } from '../../../../../shared/auth/auth.schema';
 
 export default function SignUpPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupForm>({
+  } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = (data: SignupForm) => {
+  const onSubmit = (data: SignUpInput) => {
     console.log("Signup request", data);
     // API call → dispatch loginSuccess
   };
@@ -43,6 +41,19 @@ export default function SignUpPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                placeholder="John Doe"
+                {...register("fullName")}
+              />
+              {errors.fullName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fullName.message}
+                </p>
+              )}
+            </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -70,8 +81,8 @@ export default function SignUpPage() {
                 </p>
               )}
             </div>
-            <Button type="submit" className="w-full">
-              Signup
+            <Button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700">
+              Sign Up
             </Button>
           </form>
         </CardContent>
