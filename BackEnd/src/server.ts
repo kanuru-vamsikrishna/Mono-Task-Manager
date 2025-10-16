@@ -1,4 +1,5 @@
 import express from "express";
+import fs from "fs";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -8,10 +9,26 @@ import { apiContract } from "./contracts";
 import { appRouter } from "./routes";
 import { openApiDocument } from "./openapi";
 
-dotenv.config();
+const envFile = `.env.${process.env.NODE_ENV || "local"}`;
+
+if (fs.existsSync(envFile)) {
+  dotenv.config({ path: envFile });
+  console.log(`✅ Loaded environment: ${envFile}`);
+} else {
+  dotenv.config({ path: ".env.local" });
+  console.log(`⚠️ ${envFile} not found. Using fallback: .env.local`);
+}
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  credentials: true,
+}));
+
+app.options("*", cors());
+
 app.use(express.json());
 
 const apiRouter = express.Router();

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SignInInput, signInSchema } from "../../../../../shared/auth/auth.schema";
+import { useLoginMutation } from "@/api/auth";
 
 
 export default function LoginPage() {
@@ -24,9 +25,22 @@ export default function LoginPage() {
     resolver: zodResolver(signInSchema),
   });
 
+  const loginMutation = useLoginMutation();
+
   const onSubmit = (data: SignInInput) => {
-    console.log("Login request", data);
-    // TODO: call backend API here
+    loginMutation.mutate(data, {
+      onSuccess: (res) => {
+        console.log("✅ Login success:", res);
+      },
+      onError: (err: unknown) => {
+        if (typeof err === "object" && err !== null && "response" in err) {
+          // @ts-expect-error: err may have response property from axios
+          console.error("❌ Login error:", err.response?.data || err.message);
+        } else {
+          console.error("❌ Login error:", (err as Error).message);
+        }
+      },
+    });
   };
 
   return (
@@ -95,7 +109,7 @@ export default function LoginPage() {
               to="/signup"
               className="text-blue-600 font-medium hover:underline"
             >
-              Sign up
+              SignUp
             </Link>
           </p>
         </CardFooter>

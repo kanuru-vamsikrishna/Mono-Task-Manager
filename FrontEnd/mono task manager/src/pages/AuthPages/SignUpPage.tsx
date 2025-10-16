@@ -90,10 +90,10 @@ export default function SignUpPage() {
           <p className="text-gray-600">
             Already have an account?{" "}
             <Link
-              to="/login"
+              to="/signin"
               className="text-blue-600 font-medium hover:underline"
             >
-              Login
+              SignIn
             </Link>
           </p>
         </CardFooter>

@@ -1,13 +1,17 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface User {
+  id: string;
+  email: string;
+  role: "admin" | "client" | "customer";
+}
 
 interface AuthState {
-  isAuthenticated: boolean;
-  user: null | { id: string; email: string };
+  user: User | null;
   token: string | null;
 }
 
 const initialState: AuthState = {
-  isAuthenticated: false,
   user: null,
   token: null,
 };
@@ -16,18 +20,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginSuccess: (
-      state,
-      action: PayloadAction<{ user: { id: string; email: string }; token: string }>
-    ) => {
-      state.isAuthenticated = true;
+    loginSuccess: (state, action: PayloadAction<{ user: User; token: string }>) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      localStorage.setItem("token", action.payload.token);
     },
     logout: (state) => {
-      state.isAuthenticated = false;
       state.user = null;
       state.token = null;
+      localStorage.removeItem("token");
     },
   },
 });
