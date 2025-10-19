@@ -10,6 +10,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+.turbo/
+
 # Environment files
 .env
 .env.local

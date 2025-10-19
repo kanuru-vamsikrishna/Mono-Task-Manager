@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { requestOtpSchema } from "../schemas/auth.schema";
 
-// ✅ Infer TypeScript type from Zod schema
-export type RequestOtpInput = typeof requestOtpSchema._type;
+import { z } from "zod";
+import { requestOtpSchema } from "@shared/auth/auth.schema";
+import mongoose, { Schema, Document } from "mongoose";
+export type RequestOtpInput = z.infer<typeof requestOtpSchema>;
 
 export interface OtpDocument extends RequestOtpInput, Document {
   otp: string; // explicitly stored OTP

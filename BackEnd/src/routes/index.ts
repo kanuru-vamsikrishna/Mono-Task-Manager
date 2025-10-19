@@ -1,6 +1,6 @@
 import { initServer } from "@ts-rest/express";
-import { apiContract } from "../contracts";
-import { usersRouter } from "./auth.routes";
+import { apiContract } from "../contracts/index.js";
+import { usersRouter } from "./auth.routes.js";
 
 const s = initServer();
 

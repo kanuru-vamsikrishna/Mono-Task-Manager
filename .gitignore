@@ -7,12 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.turbo/
+
 node_modules
-dist
+dist/
 dist-ssr
 *.local
-
-.turbo/
 
 # Editor directories and files
 .vscode/*

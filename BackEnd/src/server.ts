@@ -5,9 +5,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import { createExpressEndpoints } from "@ts-rest/express";
-import { apiContract } from "./contracts";
-import { appRouter } from "./routes";
-import { openApiDocument } from "./openapi";
+import { apiContract } from "./contracts/index.js";
+import { appRouter } from "./routes/index.js";
+import { openApiDocument } from "./openapi.js";
 
 const envFile = `.env.${process.env.NODE_ENV || "local"}`;
 

@@ -1,0 +1,20 @@
+{
+  "name": "mono-task-manager",
+  "private": true,
+  "packageManager": "pnpm@10.18.3",
+  "scripts": {
+    "dev:fe": "pnpm --filter \"./FrontEnd/mono task manager\" dev",
+    "dev:be": "pnpm --filter ./BackEnd dev",
+    "dev": "concurrently \"pnpm run dev:fe\" \"pnpm run dev:be\"",
+    "build": "turbo run build"
+  },
+  "workspaces": [
+    "FrontEnd/mono task manager",
+    "BackEnd",
+    "shared"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "turbo": "^2.5.8"
+  }
+}

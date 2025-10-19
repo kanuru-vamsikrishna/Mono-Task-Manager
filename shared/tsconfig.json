@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "NodeNext", // Use 'NodeNext' or 'ESNext' for modern Node/bundler use
+    "moduleResolution": "NodeNext", // Matches the module system
+    "rootDir": "./", // Start looking for source files in the current directory
+    "outDir": "./dist", // CRITICAL: Output the compiled files here
+    "esModuleInterop": true,
+    "noEmit": true,
+    "strict": true,
+    "declaration": true, // Generate .d.ts type declaration files
+    "sourceMap": true,
+    "composite": true, // Recommended for monorepo project references
+    "skipLibCheck": true,
+  },
+  "include": ["**/*.ts"] // Look for all .ts files in this package
+}

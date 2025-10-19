@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../modals/auth.modal";
-import { usersContract } from "../contracts/users";
+import User from "../modals/auth.modal.js";
+import { usersContract } from "../contracts/users.js";
 import { AppRouteImplementation } from "@ts-rest/express";
-import { sendOtpEmail, sendOtpSms } from "../services/otp.service";
-import Otp from "../modals/otp.modal";
+import { sendOtpEmail, sendOtpSms } from "../services/otp.service.js";
+import Otp from "../modals/otp.modal.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
@@ -12,7 +12,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "secret";
 export const signUpController: AppRouteImplementation<
   typeof usersContract.signUp
 > = async ({ body }) => {
-  const { name, email, password } = body;
+  const { fullName, email, password } = body;
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -20,7 +20,7 @@ export const signUpController: AppRouteImplementation<
   }
 
   const hashed = await bcrypt.hash(password, 10);
-  const user = await User.create({ name, email, password: hashed });
+  const user = await User.create({ fullName, email, password: hashed });
 
   return { status: 201, body: { message: "User created", userId: user._id.toString() } };
 };

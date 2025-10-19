@@ -1,13 +1,7 @@
+import { changePasswordSchema, requestOtpSchema, resetPasswordSchema, signInSchema, signUpSchema, verifyOtpSchema } from '../../../shared/auth/auth.schema.js';
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
-import {
-  signUpSchema,
-  signInSchema,
-  requestOtpSchema,
-  verifyOtpSchema,
-  changePasswordSchema,
-  resetPasswordSchema,
-} from "../schemas/auth.schema";
+
 
 const c = initContract();
 

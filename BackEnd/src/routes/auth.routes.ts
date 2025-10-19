@@ -1,5 +1,5 @@
 import { initServer } from "@ts-rest/express";
-import { usersContract } from "../contracts/users";
+import { usersContract } from "../contracts/users.js";
 import {
   signUpController,
   signInController,
@@ -7,7 +7,7 @@ import {
   verifyOtpController,
   changePasswordController,
   resetPasswordController,
-} from "../controllers/auth.controller";
+} from "../controllers/auth.controller.js";
 
 const s = initServer();
 
